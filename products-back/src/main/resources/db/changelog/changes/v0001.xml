@@ -37,5 +37,26 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <sql>
+            INSERT INTO category(name)
+            VALUES
+            ('Sport'),
+            ('Home'),
+            ('Electronics'),
+            ('Animal'),
+            ('Clothes');
+
+
+            INSERT INTO products(name, description, category, net_price, tax, market_price) VALUES
+            ('FAST BIKE', 'MTB', 1, 5000,23,7000),
+            ('SLOW BIKE', 'CROSS', 1, 1455,23,2300),
+            ('MAC BOOK', 'LAPTOP', 3, 8000,23,10000),
+            ('BED', 'Comfortable', 2, 1999.50,8,2900.50),
+            ('Lizard', 'Cool pet', 4, 200,0,300),
+            ('VERY FAST BIKE', 'MTB', 1, 5555.55,23,7888.88),
+            ('T-SHIRT', 'Funny', 5, 25.99,23,45.99),
+            ('TV 55"', 'Big screen', 2, 4999.99,23,6000),
+            ('Galaxy S9', 'Phone', 3, 2600,23,3299.99)
+        </sql>
     </changeSet>
 </databaseChangeLog>
