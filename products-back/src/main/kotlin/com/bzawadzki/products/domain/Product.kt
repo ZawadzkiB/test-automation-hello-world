@@ -2,6 +2,7 @@ package com.bzawadzki.products.domain
 
 import com.bzawadzki.products.annotation.NoArg
 import java.io.Serializable
+import java.math.BigDecimal
 import javax.persistence.*
 
 @Entity
@@ -22,13 +23,13 @@ data class Product(
         val category: Category,
 
         @Column(name = "net_price", nullable = false)
-        val netPrice: Long,
+        val netPrice: BigDecimal,
 
         @Column(nullable = false)
         val tax: Int,
 
         @Column(name = "market_price", nullable = false)
-        val marketPrice: Long
+        val marketPrice: BigDecimal
 ) : Serializable {
     override fun hashCode(): Int {
         return id.hashCode()
