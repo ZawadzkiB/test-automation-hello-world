@@ -1,0 +1,1 @@
+``docker run --name postgres-products -p 5432:5432 -e POSTGRES_DB=products -e POSTGRES_PASSWORD=pass -d postgres``
