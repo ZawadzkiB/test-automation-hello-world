@@ -36,7 +36,7 @@ class ProductService(
 
     fun findAndDelete(id: Long): Optional<Unit> {
         val product = products.findById(id)
-        if (product.isPresent)
+        if (products.findById(id).isPresent)
             return Optional.of(products.delete(product.get()))
         return Optional.empty()
     }

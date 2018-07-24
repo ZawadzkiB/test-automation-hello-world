@@ -1,18 +1,27 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.41'
+        kotlinVersion = '1.2.51'
         springBootVersion = '2.0.0.RC1'
+        ext.junitPlatformVersion = '1.1.1'
+        ext.junitJupiterVersion = '5.1.1'
+        ext.junitReporterVersion = '1.1.0'
+        ext.kluentVersion = '1.36'
+        ext.mockitoVersion = '2.19.1'
     }
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion"
+        classpath "com.kncept.junit5.reporter:junit-reporter:$junitReporterVersion"
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+        classpath "com.avast.gradle:gradle-docker-compose-plugin:0.8.2"
     }
 }
 
@@ -25,6 +34,9 @@ apply plugin: 'kotlin-allopen'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'com.kncept.junit5.reporter'
+apply plugin: 'docker-compose'
 
 group = 'com.bzawadzki'
 version = '1.0-SNAPSHOT'
@@ -43,7 +55,9 @@ noArg {
 repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://plugins.gradle.org/m2/" }
     maven { url "https://repo.spring.io/milestone" }
+    jcenter()
 }
 
 sourceSets {
@@ -62,8 +76,66 @@ dependencies {
     compile('org.liquibase:liquibase-core')
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    testCompile("org.jetbrains.kotlin:kotlin-test:${kotlinVersion}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtime('org.postgresql:postgresql')
-    testCompile(group: 'junit', name: 'junit', version: '4.12')
+    compile("org.amshove.kluent:kluent:${kluentVersion}")
+    compile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    compile("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
+    runtime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.mockito:mockito-core:${mockitoVersion}")
+    testCompile 'io.rest-assured:rest-assured:3.1.0'
+    compile("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
+    runtime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}") {
+        because 'allows tests to run from IDEs that bundle older version of launcher'
+    }
+}
+
+dockerCompose.isRequiredBy(test)
+
+dockerCompose {
+    useComposeFiles = ['src/test/resources/docker-compose-db-for-tests.yml']
+}
+
+test {
+    useJUnitPlatform {
+    }
+
+    dependsOn 'cleanTest'
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+
+    reports {
+        html.enabled = true
+    }
+}
+
+junitPlatform {
+    filters {
+        tags {
+            exclude 'slow'
+        }
+        includeClassNamePattern '.*Test'
+    }
+}
+
+junitPlatformTest.finalizedBy 'junitHtmlReport'
+
+junitHtmlReport {
+    aggregated = false
+
+    //RAG status css overrides
+    cssRed = 'red'
+    cssAmber = 'orange'
+    cssGreen = 'green'
+
+    //Processing directories
+    testResultsDir = 'test-results'
+    testReportsDir = 'reports/tests'
+
+    //Fail build when no XML files to process
+    failOnEmpty = true
 }

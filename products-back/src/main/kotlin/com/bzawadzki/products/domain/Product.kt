@@ -20,16 +20,16 @@ data class Product(
 
         @ManyToOne
         @JoinColumn(name = "category")
-        val category: Category,
+        val category: Category = Category(),
 
         @Column(name = "net_price", nullable = false)
-        val netPrice: BigDecimal,
+        val netPrice: BigDecimal = BigDecimal.valueOf(0),
 
         @Column(nullable = false)
-        val tax: Int,
+        val tax: Int = 0,
 
         @Column(name = "market_price", nullable = false)
-        val marketPrice: BigDecimal
+        val marketPrice: BigDecimal = BigDecimal.valueOf(0)
 ) : Serializable {
     override fun hashCode(): Int {
         return id.hashCode()

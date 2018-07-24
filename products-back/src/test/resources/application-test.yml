@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/products
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver
+  resources:
+    static-locations: "classpath:/static/"
+server:
+  port: 8181
+  servlet:
+    context-path: "/api"

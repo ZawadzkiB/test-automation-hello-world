@@ -7,4 +7,7 @@ import java.util.*
 interface ProductRepository: JpaRepository<Product, Long> {
 
     fun findByName(name: String): Optional<Product>
+
+    fun save(product: Product) : Product
+
 }
