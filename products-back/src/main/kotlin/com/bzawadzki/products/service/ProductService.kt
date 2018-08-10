@@ -1,5 +1,6 @@
 package com.bzawadzki.products.service
 
+import com.bzawadzki.products.annotation.ForTesting
 import com.bzawadzki.products.domain.Product
 import com.bzawadzki.products.repository.ProductRepository
 import org.springframework.data.domain.Page
@@ -39,5 +40,11 @@ class ProductService(
         if (products.findById(id).isPresent)
             return Optional.of(products.delete(product.get()))
         return Optional.empty()
+    }
+
+    @ForTesting
+    fun findAndDeleteByName(name: String): Optional<Unit> {
+        val id = findByName(name).orElseGet{Product(id=0)}.id
+        return findAndDelete(id)
     }
 }

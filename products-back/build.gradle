@@ -96,6 +96,9 @@ dockerCompose.isRequiredBy(test)
 
 dockerCompose {
     useComposeFiles = ['src/test/resources/docker-compose-db-for-tests.yml']
+    stopContainers = true
+    removeContainers = true
+    forceRecreate = true
 }
 
 test {
