@@ -20,28 +20,31 @@
 </template>
 
 <script type="text/javascript">
+/* eslint-disable no-undef */
+
 export default {
-  data() {
+  data () {
     return {
-      msg: 'Delete Products',
+      msg: 'Delete Products'
     }
   },
 
   methods: {
-    deleteAll: async function() {
-      let obj = this;
+    deleteAll: async function () {
+      let obj = this
 
-      const promise = new Promise(function(resolve, reject) {
-        resolve($('input[type=checkbox][class=row-checkbox]:checked').each(function() {
+      new Promise(function (resolve, reject) {
+        resolve($('input[type=checkbox][class=row-checkbox]:checked').each(function () {
           obj.$store.dispatch('ProductsStore/deleteProduct', $(this).val())
         }))
-      });
-      promise.then(() => {
+      }).then(() => {
         obj.$store.dispatch('ProductsStore/getAllProducts')
           .then(() => {
             obj.$router.go(-1)
             $('#deleteAllProductModal').modal('hide')
             $('input[type=checkbox]:checked').prop('checked', false)
+          })
+          .then(() => {
             obj.$store.dispatch('ProductsStore/getAllProducts')
           })
       })

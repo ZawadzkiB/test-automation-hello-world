@@ -6,11 +6,26 @@ module.exports = {
     // automatically uses dev Server port from /config.index.js
     // default: http://localhost:8080
     // see nightwatch.conf.js
+    const devServer = browser.globals.devServerURL + browser.globals.productsPath
+
+    browser
+      .url(devServer)
+      .waitForElementVisible('#app', 10000)
+      .assert.elementPresent('.hello')
+      .assert.containsText('h1', 'Welcome to Your Vue.js App')
+      .assert.elementCount('img', 1)
+      .end()
+  },
+
+  'default e2e tests 2': function (browser) {
+    // automatically uses dev Server port from /config.index.js
+    // default: http://localhost:8080
+    // see nightwatch.conf.js
     const devServer = browser.globals.devServerURL
 
     browser
       .url(devServer)
-      .waitForElementVisible('#app', 5000)
+      .waitForElementVisible('#app', 10000)
       .assert.elementPresent('.hello')
       .assert.containsText('h1', 'Welcome to Your Vue.js App')
       .assert.elementCount('img', 1)

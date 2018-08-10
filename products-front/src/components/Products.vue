@@ -8,11 +8,11 @@
             <h2><b>Products</b></h2>
           </div>
           <div class="col-sm-6">
-            <router-link :to="{name: 'Add_Product'}">
+            <router-link :to="{name: 'AddProduct'}">
               <a href="#addProductModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">
               &#xE147;
             </i> <span>Add New Product</span></a></router-link>
-            <router-link :to="{name: 'Delete_All_Product'}">
+            <router-link :to="{name: 'DeleteAllProduct'}">
               <a href="#deleteAllProductModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
             </router-link>
           </div>
@@ -52,14 +52,14 @@
             <td>{{ product.tax }}</td>
             <td>{{ product.marketPrice }}</td>
             <td>
-              <router-link :to="{name: 'Edit_Product', params: {id: product.id }}">
+              <router-link :to="{name: 'EditProduct', params: {id: product.id }}">
                 <a href="#editProductModal" class="edit" data-toggle="modal">
                   <i class="material-icons" data-toggle="tooltip" title="Edit">
                   &#xE254;
                   </i>
                 </a>
               </router-link>
-              <router-link :to="{name: 'Delete_Product', params: {id: product.id }}">
+              <router-link :to="{name: 'DeleteProduct', params: {id: product.id }}">
                 <a href="#deleteProductModal" class="delete" data-toggle="modal">
                   <i class="material-icons" data-toggle="tooltip" title="Delete">
                       &#xE872;

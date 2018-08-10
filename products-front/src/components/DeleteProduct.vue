@@ -20,25 +20,27 @@
 </template>
 
 <script type="text/javascript">
+/* eslint-disable no-undef */
 
 export default {
-  data() {
+  data () {
     return {
-      msg: 'Delete Products',
+      msg: 'Delete Products'
     }
   },
 
   methods: {
-    deleteProduct: function() {
+    deleteProduct: function () {
       let obj = this
       obj.$store.dispatch('ProductsStore/deleteProduct', this.$route.params.id)
-      .then(function(response) {
-        obj.$store.dispatch('ProductsStore/getAllProducts')
-      })
-      .then(() => {
-        $('#deleteProductModal').modal('hide')
-        obj.$router.go(-1)
-      })
+        .then(function (response) {
+          obj.$store.dispatch('ProductsStore/getAllProducts')
+        })
+        .then(() => {
+          $('#deleteProductModal').modal('hide')
+          $('input[type=checkbox]:checked').prop('checked', false)
+          obj.$router.go(-1)
+        })
     }
   }
 }

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Products from '@/components/Products'
-import Edit_Product from '@/components/Edit_Product'
-import Delete_Product from '@/components/Delete_Product'
-import Add_Product from '@/components/Add_Product'
-import Delete_All_Product from '@/components/Delete_All_Product'
+import EditProduct from '@/components/EditProduct'
+import DeleteProduct from '@/components/DeleteProduct'
+import AddProduct from '@/components/AddProduct'
+import DeleteAllProduct from '@/components/DeleteAllProduct'
 import Login from '@/components/Login'
 
 Vue.use(Router)
@@ -22,23 +22,23 @@ export default new Router({
       component: Products,
       children: [{
         path: ':id',
-        component: Edit_Product,
-        name: 'Edit_Product'
+        component: EditProduct,
+        name: 'EditProduct'
       },
       {
         path: ':id',
-        component: Delete_Product,
-        name: 'Delete_Product'
+        component: DeleteProduct,
+        name: 'DeleteProduct'
       },
       {
         path: 'addProduct',
-        component: Add_Product,
-        name: 'Add_Product'
+        component: AddProduct,
+        name: 'AddProduct'
       },
       {
         path: 'deleteALlProducts',
-        component: Delete_All_Product,
-        name: 'Delete_All_Product'
+        component: DeleteAllProduct,
+        name: 'DeleteAllProduct'
       }
       ]
     }
